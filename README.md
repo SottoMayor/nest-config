@@ -27,3 +27,18 @@
 Use a CLI para criar os arquivos:
 - Rapidez
 - Conexão com os módulo é feita pelo próprio framework
+
+## 2. Configuração de Variáveis de Ambiente
+__Documentação__: https://docs.nestjs.com/techniques/configuration   
+__Commit__: 57f7d5d5e83b35deda9218c8e35bd17c7575c6c7
+
+1 - Instale:   
+```bash
+npm i --save @nestjs/config
+```
+
+2 - Crie um `.env` no root.
+
+3 - Importe o Módulo de Configuração `ConfigModule` no módulo principal `AppModule`.
+
+
