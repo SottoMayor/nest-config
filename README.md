@@ -157,7 +157,11 @@ npm run seed:create ./src/database/seeds/[seed-name]
 - _Execução_: 
 ```bash
 npm run [script-name]
-```   
+```
+
+## Dockerização
+
+
 
 # Seções
 
