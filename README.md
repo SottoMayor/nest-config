@@ -184,3 +184,54 @@ Em uma aplicação com NestJs com TypeORM, existem 2 tipos de DataSource.
     - Mantenha os scripts do package.json separados da mesma forma. Aqueles que usam o datasource orm-config.dev.ts, devem ser marcados com :deve e os que usam orm-config.prod.ts com :prod.
     - Não é permitido dar rollback em produção, então na branch de prod terá um scripts "migration:down:prod".
     - Comite apenas o orm-config.dev.ts preenchido e o orm-config.prod.ts apenas como boilerplate. Isso garante que seja um pouco mais difícil de rodar migrations em prod.
+ 
+## CapRover - Dockerização e Variáveis de Ambiente
+- A dockerização é feita para fazer deploy, como em cloud ou servidores de homologação, como o _CapRover_.
+- A os valores das variáveis de ambiente mudam, dependendo se o o arquivo de variáveis de ambiente entra ou não na imagem docker.
+- Verifiou-se como o CapRover acessa o arquivo de variáveis de ambiente, independente de como esteja nomeado (ex: .env, .env.dev, .env.local ... etc).
+
+1. Sobre este projeto:
+- Há apenas um arquivo de variáveis de ambiente, nomeado como `.env`.   
+- O arquivo de variáveis de ambiente `.env` no `AppModule`.   
+- Há apenas com um arquivo .env (não há .env.local ou .env.prod, por exemplo).   
+- O projeto pode ou não funcionar sem `.env`:   
+      - `Comportamento de Quebra`: Algumas são essenciais, como as de conexão com o DB.   
+      - `Comportamento de Indeterminação`: com estas ele pode até funcionar sem, mas quando requisitadas ele vai receber o valor `undefined`.
+
+2. Deploy no CapRover:
+   - O CapRover possui um local para alocar as variáveis de ambiente do projeto, o `repositório de env vars`.   
+   - O CapRover permite que o projeto funcione sem e com o arquivo `.env` na imagem docker, denota-se por `.env docker`.   
+         - 1) `.env fora da imagem docker`: Utilização das env vars definidas no `repositório de env vars`, se alguma tiver faltando ocorre o `Comportamento de Indeterminação`.   
+         - 2) `.env dentro da imagem docker`: Ocorre uma `mescla` entre o `repositório de env vars` e `.env docker`, onde o `repositório de env vars` é prioridade.   
+             - a) As variáveis de ambiente do `repositório de env vars` sobrescrevem as do `.env docker`.   
+             - b) Se no `repositório de env vars` não tiver alguma variável que está definido no `.env docker`, ele utiliza a variável do `.env docker`.   
+             - c) Se alguma env var não estiver nem no `repositório de env vars` nem no `.env docker`, ocorre o `Comportamento de Indeterminação`.
+     
+3. Mas, e se o arquivo de variáveis de ambiente tivesse outro nome que não fosse `.env`?  
+   - No passo 2, Configuração das Variáveis de Ambiente, foi setada na propriedade `envFilePath` qual seria o arquivo de variáveis de ambiente.   
+       - Desta forma, o framework tem acesso ao caminho e o nome deste arquivo, possibilitando a extração as variáveis de ambiente.     
+   - O CapRover adota o mesmo nome e caminho do arquivo de variáveis de ambiente setado em `envFilePath`, bastando saber se este arquivo está ou não presente na imagem docker.   
+        - a) Se não está presente, o comportamento é o mesmo que em 2.a (`.env fora da imagem docker`).   
+        - b) Se está presente, o comportamento é o mesmo que em 2.b (`.env dentro da imagem docker`)
+
+4. Removendo o `.env`da construção da imagem docker:   
+- Incluir `.env` no `.dockerignore` não é suficiente para que ele não seja incluído na construção da imagem docker. Foi possível tirar o `.env` da imagem docker apagando manualmente antes da construção da imagem.
+- Isso não é obrigatório,  apenas se quiser evitar o comportamento de `mescla`.   
+- Trecho do Dockerfile:   
+```bash
+.
+.
+.
+
+RUN npm install
+
+# Remover o .env antes de copiar o resto dos arquivos
+RUN rm -f .env
+
+COPY . .
+
+.
+.
+.
+```
+     
