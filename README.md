@@ -41,4 +41,29 @@ npm i --save @nestjs/config
 
 3 - Importe o Módulo de Configuração `ConfigModule` no módulo principal `AppModule`.
 
+## 3. Configuração do TypeORM
+__Observações__:
+- Conexão com banco de dados __Postgres__.   
+- Informações necessárias da documentação do passo anterior.   
+
+__Documentação__:   
+- https://docs.nestjs.com/techniques/configuration  
+- https://docs.nestjs.com/techniques/database
+ 
+__Commit__: a693f25e2a944a6e08cf5da571e487cefb52dcac
+
+1 - Instale:   
+```bash
+npm install --save @nestjs/typeorm typeorm pg
+```
+
+2 - Configuração do ORM no `AppModule`:   
+- A configuração do ORM usa variáveis de ambiente.
+- Desabilite a opção `synchronize` para evitar reset do banco.
+- Na opção `entities` preciso colocar todas as entidades que acessam o DB.
+
+3 - Configuração do ORM em cada Módulo que contém uma Entidade:   
+- Se 1 módulo tem N entidades que se conectam ao banco, inserir as N.
+
+
 
