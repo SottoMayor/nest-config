@@ -20,3 +20,10 @@
     - `nest g mi /middlewares/Logger --flat --no-spec`
     - `nest g pi /pipes/ValidationPipe --flat --no-spec`
 
+# Passos 
+
+## 1. Criação de Módulo
+
+Use a CLI para criar os arquivos:
+- Rapidez
+- Conexão com os módulo é feita pelo próprio framework
