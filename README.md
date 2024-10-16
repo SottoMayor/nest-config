@@ -89,6 +89,75 @@ npm install typeorm-extension --save
 - Setar credenciais do banco.
 - Setar localização das entidades, migrations e seeds
     - Por padrão, migrations e seeds são subpastas de `src/database`
+ 
+## 5. Migrations e Seeds
+
+__Observações__:
+- Configurações realizadas no passo anterior.   
+- Definição de scripts (package.json) de gerenciamento.
+- Rodar scripts para criação ou execução de arquivos.   
+
+__Documentação__:   
+- https://typeorm.io/migrations   
+- https://github.com/tada5hi/typeorm-extension   
+ 
+__Commit__: 1ca8fa89f069b6c19df55bd3646eb2e4c76673ff
+
+
+1. Se for usar seeds, crie a pasta `src/database/seeds`.
+- _OBS_: Poderia-se usar um comando, junto com o script de _criação de seed_, para gerar a pasta automaticamente. Mas, para garantir que não haverá erros entre diferentes OS, eu optou-se por esta abordagem.
+
+2. Scripts de migrations (package.json):   
+    - `CLI`:   
+         - __`Preferencial`__: Seguindo a documentação do TypeORM de 10/2024   
+              - `"typeorm-cli": "npx typeorm-ts-node-commonjs"`   
+         - `Alternativa`: Esta versão não está na documentação do TypeORM, funciona por conta das dependências instaladas por meio do Nest e do TypeOrm   
+              - `"typeorm-cli": "npx ts-node --transpile-only ./node_modules/typeorm/cli.js"`
+    - `Criação`:   
+        - `"migration:create": "npm run typeorm-cli -- migration:create"`   
+    - `Migrations com DataSource`:
+        - `prod` (orm-config.prod.ts):
+            - `"migration:show:prod": "npm run typeorm-cli -- migration:show -d src/orm-config.prod.ts"`
+            - `"migration:up:prod": "npm run typeorm-cli -- migration:run -d src/orm-config.prod.ts"`
+        - `dev` (orm-config.dev.ts):
+            - `"migration:show:dev": "npm run typeorm-cli -- migration:show -d src/orm-config.dev.ts"`
+            - `"migration:up:dev": "npm run typeorm-cli -- migration:run -d src/orm-config.dev.ts"`
+            - `"migration:down:dev": "npm run typeorm-cli -- migration:revert -d src/orm-config.dev.ts"`
+    
+__Execução__ dos scripts:   
+- _Script CLI_: Não precisa ser executado   
+- _Criação_:
+```bash
+npm run migration:create ./src/database/migrations/[migration-name]"
+```
+   
+- _Migrations com DataSource_:
+```bash
+npm run [script-name]
+```
+
+3. Scripts de Seeds (package.json):
+    - `CLI`:
+        - `"typeorm-extended-cli": "npx ts-node ./node_modules/typeorm-extension/bin/cli.cjs"`   
+    - `Criação`:
+        - `"seed:create": "npm run typeorm-extended-cli -- seed:create --name"`   
+    - Execução:   
+        - `prod` (orm-config.prod.ts):
+            - `"seed:run:prod": "npm run typeorm-extended-cli -- seed:run -d src/orm-config.prod.ts"`
+        - `dev` (orm-config.dev.ts):
+            - `"seed:run:dev": "npm run typeorm-extended-cli -- seed:run -d src/orm-config.dev.ts"`
+
+__Execução__ dos scripts:   
+- _Script CLI_: Não precisa ser executado.   
+- _Criação_:
+```bash
+npm run seed:create ./src/database/seeds/[seed-name]
+```
+
+- _Execução_: 
+```bash
+npm run [script-name]
+```   
 
 # Seções
 
