@@ -65,5 +65,49 @@ npm install --save @nestjs/typeorm typeorm pg
 3 - Configuração do ORM em cada Módulo que contém uma Entidade:   
 - Se 1 módulo tem N entidades que se conectam ao banco, inserir as N.
 
+## 4. Configuração do DataSource
 
+__Observações__:
+- Para saber como o DataSource interage com o TypeORM e Nest, verifique a seção _DataSource/Tipos_.
+- Para técnicas de gerenciamento de DataSource, verifique a seção _DataSource/Gerenciamento_.
+- Configuração para rodar migrations e seeds
 
+__Documentação__:   
+- https://docs.nestjs.com/techniques/database
+- https://typeorm.io/data-source
+- https://typeorm.io/data-source-options
+- https://github.com/tada5hi/typeorm-extension
+ 
+__Commit__: 0f7cdfac97fe855d18c468e644c6a5cbdc4d9384
+
+1 - Instale:   
+```bash
+npm install typeorm-extension --save
+```
+
+2 - Crie o arquivo orm-config.[dev | prod].ts. (verifique a seção _DataSource/Gerenciamento_)
+- Setar credenciais do banco.
+- Setar localização das entidades, migrations e seeds
+    - Por padrão, migrations e seeds são subpastas de `src/database`
+
+# Seções
+
+## DataSource
+
+### Tipos
+Em uma aplicação com NestJs com TypeORM, existem 2 tipos de DataSource.
+
+- Datasource Interno (App Module):
+    - O TypeORM cria um datasource para uso interno no NestJS. Este datasource é usado para gerenciar repositórios e interações de banco de dados durante a execução da aplicação.
+    - As credenciais do banco de dados devem ser gerenciadas através de variáveis de ambiente, garantindo que não estejam expostas no código.
+
+- Datasource para Migrations e Seeds (orm-config.ts):
+    - Para operações de migração e seeds, o TypeORM exige um arquivo de configuração separado (orm-config.ts). Este arquivo deve conter as credenciais de acesso ao banco de dados.
+    - Neste arquivo não há suporte para variáveis de ambiente, o que pode expor as credenciais. Por isso, é importante tratar isso com cautela.
+
+### Gerenciamento
+- Gerenciamento de datasources para diferentes ambientes (branchs):
+    - Mantenha arquivos de configuração separados para desenvolvimento e produção (orm-config.dev.ts e orm-config.prod.ts, respectivamente).
+    - Mantenha os scripts do package.json separados da mesma forma. Aqueles que usam o datasource orm-config.dev.ts, devem ser marcados com :deve e os que usam orm-config.prod.ts com :prod.
+    - Não é permitido dar rollback em produção, então na branch de prod terá um scripts "migration:down:prod".
+    - Comite apenas o orm-config.dev.ts preenchido e o orm-config.prod.ts apenas como boilerplate. Isso garante que seja um pouco mais difícil de rodar migrations em prod.
