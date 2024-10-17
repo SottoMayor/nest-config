@@ -161,6 +161,10 @@ npm run [script-name]
 
 ## Dockerização
 
+__Commit__: 46fb0ae95e6eb70e1456cbc367c3a5993812e395   
+
+1 - Escreva o `Dockerfile`.   
+2 - Escreva o `.dockerignore`.    
 
 
 # Seções
