@@ -218,24 +218,8 @@ Em uma aplicação com NestJs com TypeORM, existem 2 tipos de DataSource.
         - a) Se não está presente, o comportamento é o mesmo que em 2.a (`.env fora da imagem docker`).   
         - b) Se está presente, o comportamento é o mesmo que em 2.b (`.env dentro da imagem docker`)
 
-4. Removendo o `.env`da construção da imagem docker:   
-- Incluir `.env` no `.dockerignore` não é suficiente para que ele não seja incluído na construção da imagem docker. Foi possível tirar o `.env` da imagem docker apagando manualmente antes da construção da imagem.
+4. Remoção do `.env`da construção da imagem docker:   
+- Incluir `.env` no `.dockerignore` não é suficiente para que ele não seja incluído na construção da imagem docker.
+- Foi possível tirar apagando o arquivo `.env` manualmente antes da construção da imagem.
 - Isso não é obrigatório,  apenas se quiser evitar o comportamento de `mescla`.   
-- Trecho do Dockerfile:   
-```bash
-.
-.
-.
-
-RUN npm install
-
-# Remover o .env antes de copiar o resto dos arquivos
-RUN rm -f .env
-
-COPY . .
-
-.
-.
-.
-```
      
