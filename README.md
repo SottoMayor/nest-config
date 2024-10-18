@@ -217,8 +217,7 @@ __Commit__: d5ddefeaa48d2edcf857059e1483c5591d0d0082
 
 ### 3. Construir e Validar/Sanitizar DTOs.
 
-__Observações__:
-- O 1° e 2° passo só são necessários no primeiro uso, caso contrário pode ir direto para o 3°
+__Observações__: O 1° e 2° passo só são necessários no primeiro uso, caso contrário pode ir direto para o 3°.   
 
 __Documentação__:   
 - https://docs.nestjs.com/pipes
@@ -238,8 +237,7 @@ npm install class-validator class-transformer
 
 ### 4. Implementar Services e Controllers e Conectá-los.
 
-__Observações__:
-- Nesse caso, eu não precisei criar controllers. Os que foram gerados pela CLI já foram suficientes.
+__Observações__: Nesse caso, eu não precisei criar controllers. Os que foram gerados pela CLI já foram suficientes.   
  
 __Commit__: 9218595d7bbd6ba00bcea7b6cecd5ccd5b602391
 
@@ -247,7 +245,40 @@ __Commit__: 9218595d7bbd6ba00bcea7b6cecd5ccd5b602391
 
 2- Implemente a regra de negócio em cada método.   
 
+### 5. Disponibilizar Endpoints.
 
+##### 5.1 Insomnia
+
+__Observações__: Pode-se escrever os endpoints no insomnia e exportar para o projeto.
+
+__Documentação__:   
+- https://docs.insomnia.rest/insomnia/get-started
+ 
+__Commit__: e7fca5c868469370525b6c22120d3bac0507a6f5
+
+1 - Escreva os endpoints em uma collection do Insomnia.   
+    - Dica: Se um endpoint admitir vários bodys, é possível escrevê-los em forma de rascunho no campo `Docs` do próprio Endpoint.   
+
+2 - Exporte a collection e coloque na pasta root do projeto.
+
+##### 5.2 Swagger (Open API)
+
+__Observações__: 
+    - Pode-se configurar uma documentação Swagger dentro do projeto.
+    - Essa ferramenta é poderosa, se aprofunde nos Docs da ferramenta para documentações mais completas. 
+
+__Documentação__: https://docs.nestjs.com/openapi/introduction
+ 
+__Commit__: 912201f8f595bbe6d19a84e3731a0f218c1fa251
+
+1 - Instale:   
+```bash
+npm install --save @nestjs/swagger
+```
+
+2 - Inicialize o SwaggerModule no `main.ts`.   
+
+3 - Aplique os decorators do Swagger nas páginas onde se deseja documentar. Uma documentação básica envolve os DTOs e Controllers.   
 
 # Seções
 
