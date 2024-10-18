@@ -236,6 +236,19 @@ npm install class-validator class-transformer
 
 3 - Aplique a validação/sanitização nos DTOs.   
 
+### 4. Implementar Services e Controllers e Conectá-los.
+
+__Observações__:
+- Nesse caso, eu não precisei criar controllers. Os que foram gerados pela CLI já foram suficientes.
+ 
+__Commit__: 9218595d7bbd6ba00bcea7b6cecd5ccd5b602391
+
+1 - Use as entidades do módulo como repositórios pelo construtor.   
+
+2- Implemente a regra de negócio em cada método.   
+
+
+
 # Seções
 
 ## DataSource
