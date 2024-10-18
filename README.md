@@ -20,7 +20,7 @@
     - `nest g mi /middlewares/Logger --flat --no-spec`
     - `nest g pi /pipes/ValidationPipe --flat --no-spec`
 
-# Passos 
+# Passos de Configuração
 
 ## 1. Criação de Módulo
 
@@ -167,6 +167,23 @@ __Commit__: 46fb0ae95e6eb70e1456cbc367c3a5993812e395
 2 - Escreva o `.dockerignore`.    
 
 
+# Passos de Construção de API 
+Uma vez que o projeto já está configurado, um percurso interessante para trabalhar com módulos é:
+- De uma vez, para cada módulo:
+1. Construir as Entidades e Definir seus Relacionamentos.
+2. Construir e Executar Migrations e Seeds.
+3. Construir e Validar DTOs.
+- Um módulo por vez:
+4. Implementar Services e Controllers e Conectá-los.
+- Imediatamente após a realização do passo 4.
+5. Disponibilizar Endpoints.
+  
+
+_OBS __1___: Esta ordem garante maior clareza na construção da aplicação.   
+_OBS __2___: Esse passo a passo pode ser reaplicado quantas vezes for necessário durante toda a construção da API, com a adição de novos módulos.   
+_OBS __3___:: Apesar de existir uma ordem, pode ser que algum passo não seja necessário, dependendo do propósito do módulo.   
+_OBS __4___:: Nos passos 3 e 5 é necessário fazer instalação e configuração na primeira vez.   
+
 # Seções
 
 ## DataSource
@@ -212,7 +229,7 @@ Em uma aplicação com NestJs com TypeORM, existem 2 tipos de DataSource.
              - c) Se alguma env var não estiver nem no `repositório de env vars` nem no `.env docker`, ocorre o `Comportamento de Indeterminação`.
      
 3. Mas, e se o arquivo de variáveis de ambiente tivesse outro nome que não fosse `.env`?  
-   - No passo 2, Configuração das Variáveis de Ambiente, foi setada na propriedade `envFilePath` qual seria o arquivo de variáveis de ambiente.   
+   - No passo 2 de configuração, Configuração das Variáveis de Ambiente, foi setada na propriedade `envFilePath` qual seria o arquivo de variáveis de ambiente.   
        - Desta forma, o framework tem acesso ao caminho e o nome deste arquivo, possibilitando a extração as variáveis de ambiente.     
    - O CapRover adota o mesmo nome e caminho do arquivo de variáveis de ambiente setado em `envFilePath`, bastando saber se este arquivo está ou não presente na imagem docker.   
         - a) Se não está presente, o comportamento é o mesmo que em 2.a (`.env fora da imagem docker`).   
