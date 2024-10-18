@@ -261,6 +261,25 @@ __Commit__: e7fca5c868469370525b6c22120d3bac0507a6f5
 
 2 - Exporte a collection e coloque na pasta root do projeto.
 
+##### 5.2 Swagger (Open API)
+
+__Observações__: 
+    - Pode-se configurar uma documentação Swagger dentro do projeto.
+    - Essa ferramenta é poderosa, se aprofunde nos Docs da ferramenta para documentações mais completas. 
+
+__Documentação__: https://docs.nestjs.com/openapi/introduction
+ 
+__Commit__: 912201f8f595bbe6d19a84e3731a0f218c1fa251
+
+1 - Instale:   
+```bash
+npm install --save @nestjs/swagger
+```
+
+2 - Inicialize o SwaggerModule no `main.ts`.   
+
+3 - Aplique os decorators do Swagger nas páginas onde se deseja documentar. Uma documentação básica envolve os DTOs e Controllers.   
+
 # Seções
 
 ## DataSource
