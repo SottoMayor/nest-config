@@ -172,7 +172,7 @@ Uma vez que o projeto já está configurado, um percurso interessante para traba
 - De uma vez, para cada módulo:
 1. Construir as Entidades e Definir seus Relacionamentos.
 2. Construir e Executar Migrations e Seeds.
-3. Construir e Validar DTOs.
+3. Construir e Validar/Sanitizar DTOs.
 - Um módulo por vez:
 4. Implementar Services e Controllers e Conectá-los.
 - Imediatamente após a realização do passo 4.
@@ -183,6 +183,23 @@ _OBS __1___: Esta ordem garante maior clareza na construção da aplicação.
 _OBS __2___: Esse passo a passo pode ser reaplicado quantas vezes for necessário durante toda a construção da API, com a adição de novos módulos.   
 _OBS __3___:: Apesar de existir uma ordem, pode ser que algum passo não seja necessário, dependendo do propósito do módulo.   
 _OBS __4___:: Nos passos 3 e 5 é necessário fazer instalação e configuração na primeira vez.   
+
+## Construção da API a partir de 1 Entidade
+- Nesta parte, assume-se que foram feitos os passos de configuração e um módulo com uma entidade User foi criada.
+- Neste momento, é interessante ter um projeto base de como é esta entidade, regras de validação, endpoints que se deseja implementar. Veja o projeto-base.txt no diretório root.
+
+### 1. Construir as Entidades e Definir seus Relacionamentos.
+
+__Observações__:   
+- Observe que neste caso não se tem relacionamentos.
+- Basta construir a Entidade.
+
+__Documentação__: https://typeorm.io/entities   
+ 
+__Commit__: 18dc07713eafeea4a2a594d51103600b8b84d757
+
+1 - Construa a entidade User
+
 
 # Seções
 
