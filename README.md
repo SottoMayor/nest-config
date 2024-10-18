@@ -215,6 +215,39 @@ __Commit__: d5ddefeaa48d2edcf857059e1483c5591d0d0082
 1 - Construa a migration User.   
 2 - Execute a migrations pelo comando do package.json.
 
+### 3. Construir e Validar/Sanitizar DTOs.
+
+__Observações__:
+- O 1° e 2° passo só são necessários no primeiro uso, caso contrário pode ir direto para o 3°
+
+__Documentação__:   
+- https://docs.nestjs.com/pipes
+- https://github.com/typestack/class-validator
+- https://github.com/typestack/class-transformer
+ 
+__Commit__: c796e6204ea1065fe83ccb66fd2ab5877c1d269a
+
+1 - Instale:   
+```bash
+npm install class-validator class-transformer
+```
+
+2 - Configure o Pipe de validação no `main.ts`.   
+
+3 - Aplique a validação/sanitização nos DTOs.   
+
+### 4. Implementar Services e Controllers e Conectá-los.
+
+__Observações__:
+- Nesse caso, eu não precisei criar controllers. Os que foram gerados pela CLI já foram suficientes.
+ 
+__Commit__: 9218595d7bbd6ba00bcea7b6cecd5ccd5b602391
+
+1 - Use as entidades do módulo como repositórios pelo construtor.   
+
+2- Implemente a regra de negócio em cada método.   
+
+
 
 # Seções
 
