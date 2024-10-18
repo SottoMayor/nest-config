@@ -194,11 +194,26 @@ __Observações__:
 - Observe que neste caso não se tem relacionamentos.
 - Basta construir a Entidade.
 
-__Documentação__: https://typeorm.io/entities   
+__Documentação__: 
+- https://typeorm.io/entities
+- https://orkhan.gitbook.io/typeorm/docs/listeners-and-subscribers#afterload   
  
 __Commit__: 18dc07713eafeea4a2a594d51103600b8b84d757
 
 1 - Construa a entidade User
+
+### 2. Construir e Executar Migrations e Seeds.
+
+__Observações__: Observe que neste caso não se tem seeds.
+
+__Documentação__:   
+- https://orkhan.gitbook.io/typeorm/docs/migrations
+- https://typeorm.io/migrations   
+ 
+__Commit__: d5ddefeaa48d2edcf857059e1483c5591d0d0082
+
+1 - Construa a migration User.   
+2 - Execute a migrations pelo comando do package.json.
 
 
 # Seções
