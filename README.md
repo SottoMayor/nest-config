@@ -280,6 +280,29 @@ npm install --save @nestjs/swagger
 
 3 - Aplique os decorators do Swagger nas páginas onde se deseja documentar. Uma documentação básica envolve os DTOs e Controllers.   
 
+# Utilitários
+Artifícios que gerenciam o fluxo de uma aplicação e automatizam lógicas comuns.   
+
+## Interceptor - Body Converter
+Interceptor que recebe um body no formato `snake_case` e transforma para o formato `camelCase`, formato padrão da sintaxe do código. Por fim, no envio da resposta, transforma `camelCase` em `snake_case`.
+
+__Documentação__:   
+- https://lodash.com/
+- https://docs.nestjs.com/interceptors
+ 
+__Commit__: 2e67db1463d6b669ddd3a5a5a049e48e45dd1ab6
+
+1 - Instale:   
+
+```Bash
+npm i --save lodash
+npm i --save-dev @types/lodash
+```
+
+2 - Crie um interceptor (BodyConverter) e adicione toda a lógica necessária.      
+
+3 - Disponibilize-o globalmente no `main.ts`
+
 # Seções
 
 ## DataSource
