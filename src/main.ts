@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { BodyConverterInterceptor } from './interceptors/body-converter.interceptor';
+import { ResponseNormalizationInterceptor } from './interceptors/response-normalization.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,7 +14,7 @@ async function bootstrap() {
     })
   )
 
-  app.useGlobalInterceptors(new BodyConverterInterceptor())
+  app.useGlobalInterceptors(new BodyConverterInterceptor(), new ResponseNormalizationInterceptor())
 
   const config = new DocumentBuilder()
     .setTitle('Swagger Documentation Example')
