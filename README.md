@@ -301,7 +301,31 @@ npm i --save-dev @types/lodash
 
 2 - Crie um interceptor (BodyConverter) e adicione toda a lógica necessária.      
 
-3 - Disponibilize-o globalmente no `main.ts`
+3 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalInterceptors`.
+
+## Interceptor - Response Normalization
+Interceptor que padroniza o envio das respostas de API.
+
+```Bash
+{
+  success: boolean,
+  message: string,
+  data: Object | null,
+  errors: string[] | []
+}
+```
+
+__Documentação__: https://docs.nestjs.com/interceptors
+ 
+__Commit__: e2fd136e13971133669ed3786ab7c6a5e02e4e4b
+
+1 - Crie um interceptor (ResponseNormalization) e adicione toda a lógica necessária.    
+
+2 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalInterceptors`.     
+
+3 - Crie uma interface (ResponseService.interface) que suporte o envio das propriedades `message` e `success`.
+
+4 - Aplique a interface do passo 3 nos services em que se deseja setar o valor de `message` ou `success` (ex: uma mensagem personalizada). 
 
 # Seções
 
