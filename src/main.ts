@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { BodyConverterInterceptor } from './interceptors/body-converter.interceptor';
 import { ResponseNormalizationInterceptor } from './interceptors/response-normalization.interceptor';
+import { ErrorHandlerFilter } from './filters/error-handler.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,7 +15,9 @@ async function bootstrap() {
     })
   )
 
-  app.useGlobalInterceptors(new BodyConverterInterceptor(), new ResponseNormalizationInterceptor())
+  app.useGlobalInterceptors(new BodyConverterInterceptor(), new ResponseNormalizationInterceptor());
+
+  app.useGlobalFilters(new ErrorHandlerFilter());
 
   const config = new DocumentBuilder()
     .setTitle('Swagger Documentation Example')
