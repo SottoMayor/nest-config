@@ -327,6 +327,27 @@ __Commit__: e2fd136e13971133669ed3786ab7c6a5e02e4e4b
 
 4 - Aplique a interface do passo 3 nos services em que se deseja setar o valor de `message` ou `success` (ex: uma mensagem personalizada). 
 
+## Filter - Error Handler
+Interceptor que padroniza o envio de erros da API. É como se fosse um `Interceptor - Response Normalization` para as respostas de erro.
+
+```Bash
+{
+  success: boolean,
+  message: string,
+  data: null,
+  errors: string[] | []
+}
+```
+
+__Documentação__: https://docs.nestjs.com/exception-filters
+ 
+__Commit__: 9410b0d153c7a787bbd1bc0fd5e239a570df1366
+
+1 - Crie um filter (ErrorHandler) e adicione toda a lógica necessária.    
+
+2 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalFilters`.   
+
+
 # Seções
 
 ## DataSource
