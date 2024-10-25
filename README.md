@@ -280,6 +280,74 @@ npm install --save @nestjs/swagger
 
 3 - Aplique os decorators do Swagger nas páginas onde se deseja documentar. Uma documentação básica envolve os DTOs e Controllers.   
 
+# Utilitários
+Artifícios que gerenciam o fluxo de uma aplicação e automatizam lógicas comuns.   
+
+## Interceptor - Body Converter
+Interceptor que recebe um body no formato `snake_case` e transforma para o formato `camelCase`, formato padrão da sintaxe do código. Por fim, no envio da resposta, transforma `camelCase` em `snake_case`.
+
+__Documentação__:   
+- https://lodash.com/
+- https://docs.nestjs.com/interceptors
+ 
+__Commit__: 2e67db1463d6b669ddd3a5a5a049e48e45dd1ab6
+
+1 - Instale:   
+
+```Bash
+npm i --save lodash
+npm i --save-dev @types/lodash
+```
+
+2 - Crie um interceptor (BodyConverter) e adicione toda a lógica necessária.      
+
+3 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalInterceptors`.
+
+## Interceptor - Response Normalization
+Interceptor que padroniza o envio das respostas de API.
+
+```Bash
+{
+  success: boolean,
+  message: string,
+  data: Object | null,
+  errors: string[] | []
+}
+```
+
+__Documentação__: https://docs.nestjs.com/interceptors
+ 
+__Commit__: e2fd136e13971133669ed3786ab7c6a5e02e4e4b
+
+1 - Crie um interceptor (ResponseNormalization) e adicione toda a lógica necessária.    
+
+2 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalInterceptors`.     
+
+3 - Crie uma interface (ResponseService.interface) que suporte o envio das propriedades `message` e `success`.
+
+4 - Aplique a interface do passo 3 nos services em que se deseja setar o valor de `message` ou `success` (ex: uma mensagem personalizada). 
+
+## Filter - Error Handler
+Interceptor que padroniza o envio de erros da API. É como se fosse um `Interceptor - Response Normalization` para as respostas de erro.
+
+```Bash
+{
+  success: boolean,
+  message: string,
+  data: null,
+  errors: string[] | []
+}
+```
+
+__Documentação__: https://docs.nestjs.com/exception-filters
+ 
+__Commit__: 9410b0d153c7a787bbd1bc0fd5e239a570df1366
+
+1 - Crie um filter (ErrorHandler) e adicione toda a lógica necessária.    
+
+2 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalFilters`.   
+
+
 # Seções
 
 ## DataSource
