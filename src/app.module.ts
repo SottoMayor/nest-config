@@ -5,6 +5,9 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User } from './users/entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CryptographyModule } from './cryptography/cryptography.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { CryptographyInterceptor } from './interceptors/cryptography.interceptor';
 
 @Module({
   imports: [
@@ -30,8 +33,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
           };
         }
       }),
-    UsersModule],
+    UsersModule,
+    CryptographyModule
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CryptographyInterceptor,
+    },
+  ],
 })
 export class AppModule {}
