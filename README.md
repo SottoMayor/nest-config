@@ -347,6 +347,42 @@ __Commit__: 9410b0d153c7a787bbd1bc0fd5e239a570df1366
 
 2 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalFilters`.   
 
+## Interceptor - Criptografia + Configuração de Criptografia Simétrica
+- Criptografar as respostas enviadas e descriptografar bodys recebidos usando uma chave de criptografia (ex: frase aleatória com caracteres especiais no sha-256 UTF8).   
+- Existe um header customizado capaz de desabilitar a criptografia, é recomendado o uso apenas em DEV ou em PROD se for consultar via Insomnia.
+- Criptografia ativada: App lê o body criptografado e devolve respostas criptografado. Devolve um erro caso não consiga descriptografar o body.
+- Criptografia desativada: App lê o body sem criptografia e devolve respostas sem criptografia. Devolve um erro se um body criptografado for passado. 
+
+O conteúdo criptografado (digested) é uma string, ele é transita na rede em formato JSON com o valor `data`.
+```Bash
+{
+  data: string(digested)
+}
+```
+
+__Documentação__:   
+    - https://docs.nestjs.com/interceptors   
+    - https://www.npmjs.com/package/crypto-js
+ 
+__Commit__: 7299412c0d44202e2b38622f9c7697032132def9
+
+1 - Instale:   
+
+```Bash
+npm install crypto-js
+npm i --save-dev @types/crypto-js
+```
+
+2 - Adicione 3 novas secrets de criptografia no .env:   
+    - `Chave`: `HASH_KEY`.   
+    - `Header`: `DECRYPT_HEADER`.   
+    - `Header Value`: `DECRYPT_HEADER_VALUE`.   
+
+3 - Criar módulo de criptografia (cryptography) apenas com serviço `cryptography.service`. Disponibilize módulo globalmente, pois ele pode ser reutilizado em outras partes.
+
+4 - Crie um interceptor (CryptographyInterceptor) e adicione toda a lógica necessária.   
+
+5 - Disponibilize o `CryptographyInterceptor` de forma global (seção Injeção de Dependência para Features Globais).
 
 # Seções
 
@@ -402,5 +438,12 @@ Em uma aplicação com NestJs com TypeORM, existem 2 tipos de DataSource.
 4. Remoção do `.env`da construção da imagem docker:   
 - Incluir `.env` no `.dockerignore` não é suficiente para que ele não seja incluído na construção da imagem docker.
 - Foi possível tirar apagando o arquivo `.env` manualmente antes da construção da imagem.
-- Isso não é obrigatório,  apenas se quiser evitar o comportamento de `mescla`.   
-     
+- Isso não é obrigatório,  apenas se quiser evitar o comportamento de `mescla`.
+
+## Injeção de Dependência para Features Globais
+- Para usar o `CryptographyInterceptor` é preciso ter acesso aos serviços cryptographyService e configService.
+- Setar este interceptor no `main.ts` usando `app.useGlobalInterceptors` é desconfortável, pois seria necessário instanciar e injetar neste interceptor esses 2 serviços.
+- Para contornar isso, foi preciso declará-lo nos providers do `app.module`, assim o próprio framework cuida da injeção de dependência do interceptor.
+- Dessa forma eu tenho uma disponibilidade global, já que o `app.module` é o módulo principal e toda aplicação tem acesso a ele.
+- Dessa forma, também, verificou-se `CryptographyInterceptor` é acionado após o acionamento dos interceptors declarados em `app.useGlobalInterceptors`.
+- Caso a aplicação deste interceptor não fosse global (improvável), ou seja, utilização em apenas uma rota ou em um conjunto de rotas. Basta usar o decorator `@UseInterceptors(CryptographyInterceptor)` em um método ou classe de um controller, além de ter que desabilitar a disponibilidade global. Mas há um problema: ele não criptografa a resposta inteira, apenas os dados que o próprio controller retorna.
