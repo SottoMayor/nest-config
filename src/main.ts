@@ -7,7 +7,7 @@ import { ResponseNormalizationInterceptor } from './interceptors/response-normal
 import { ErrorHandlerFilter } from './filters/error-handler.filter';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
 
   app.useGlobalPipes(
     new ValidationPipe({
