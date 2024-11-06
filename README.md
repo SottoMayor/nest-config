@@ -371,8 +371,8 @@ __Documentação__:
     - https://docs.nestjs.com/interceptors   
     - https://www.npmjs.com/package/crypto-js
  
-__Commit__: 
-    - Config: 7299412c0d44202e2b38622f9c7697032132def9
+__Commit__:   
+    - Config: 7299412c0d44202e2b38622f9c7697032132def9   
     - Fix: 972b9fa70e6c0d713b62046c9abc916e49656ec4
 
 
@@ -394,6 +394,16 @@ npm i --save-dev @types/crypto-js
     `OBS`: verificar commit de fix.   
 
 5 - Disponibilize o `CryptographyInterceptor` de forma global (seção Injeção de Dependência para Features Globais).
+
+## Documentação Swagger - Desligamento em produção + Desativação da Criptografia
+Caso não seja interessante dispor a documentação em produção é possível desligá-la.   
+Caso a documentação rode apenas em desenvolvimento, não é interessante habilitar a criptografia em chamadas de API feitas diretamente pelo swagger.
+
+__Commit__: baef6aacbba6772f10512826b4d979dbf8dce66f
+
+1 - Desligue a documentação do Swagger no `main.ts`.   
+
+2 - Adicione a lógica para desabilitar a criptografia de requisições vindas do Swagger dentro de `CryptographyInterceptor`.
 
 # Seções
 
