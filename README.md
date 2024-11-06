@@ -22,13 +22,20 @@
 
 # Passos de Configuração
 
-## 1. Criação de Módulo
+## 1. Habilitação do CORS
+
+__Documentação__: https://docs.nestjs.com/security/cors   
+__Commit__: https://docs.nestjs.com/security/cors
+
+1 - Habilite o cors no `main.ts`
+
+## 2. Criação de Módulo
 
 Use a CLI para criar os arquivos:
 - Rapidez
 - Conexão com os módulo é feita pelo próprio framework
 
-## 2. Configuração de Variáveis de Ambiente
+## 3. Configuração de Variáveis de Ambiente
 __Documentação__: https://docs.nestjs.com/techniques/configuration   
 __Commit__: 57f7d5d5e83b35deda9218c8e35bd17c7575c6c7
 
@@ -41,7 +48,7 @@ npm i --save @nestjs/config
 
 3 - Importe o Módulo de Configuração `ConfigModule` no módulo principal `AppModule`.
 
-## 3. Configuração do TypeORM
+## 4. Configuração do TypeORM
 __Observações__:
 - Conexão com banco de dados __Postgres__.   
 - Informações necessárias da documentação do passo anterior.   
@@ -65,7 +72,7 @@ npm install --save @nestjs/typeorm typeorm pg
 3 - Configuração do ORM em cada Módulo que contém uma Entidade:   
 - Se 1 módulo tem N entidades que se conectam ao banco, inserir as N.
 
-## 4. Configuração do DataSource
+## 5. Configuração do DataSource
 
 __Observações__:
 - Para saber como o DataSource interage com o TypeORM e Nest, verifique a seção _DataSource/Tipos_.
@@ -90,7 +97,7 @@ npm install typeorm-extension --save
 - Setar localização das entidades, migrations e seeds
     - Por padrão, migrations e seeds são subpastas de `src/database`
  
-## 5. Migrations e Seeds
+## 6. Migrations e Seeds
 
 __Observações__:
 - Configurações realizadas no passo anterior.   
@@ -159,7 +166,7 @@ npm run seed:create ./src/database/seeds/[seed-name]
 npm run [script-name]
 ```
 
-## Dockerização
+## 7. Dockerização
 
 __Commit__: 46fb0ae95e6eb70e1456cbc367c3a5993812e395   
 
