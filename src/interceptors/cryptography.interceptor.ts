@@ -14,6 +14,12 @@ export class CryptographyInterceptor implements NestInterceptor {
     const decryptHeaderValue = this.configService.get<string>('DECRYPT_HEADER_VALUE')
     const headerValue = request.header(decryptHeader)
 
+    const referer = request.headers.referer;
+    const host = request.headers.host;
+    const refererWithoutProtocol = referer?.replace(/^https?:\/\//, '');
+    const path = refererWithoutProtocol?.replace(host, '');
+    const isSwaggerPath = path === '/api';
+
     // Condições para descriptografar o body...
     // -> Se o Header de criptografia for passado na request e não bater
     const withoutOrInvalidDecryptHeaderValue = (
@@ -29,11 +35,15 @@ export class CryptographyInterceptor implements NestInterceptor {
       request.method != 'GET' &&
       Object.keys(request.body).length !== 0
     )
+    // -> Se a request não for do swagger
+    const isNotSwaggerRequest = !isSwaggerPath
 
     if (
       withoutOrInvalidDecryptHeaderValue
         && // E
       nonGetWithBody
+        && // E
+      isNotSwaggerRequest
     ) {
       request.body = this.cryptoService.decrypt(request.body);
     }
@@ -42,8 +52,8 @@ export class CryptographyInterceptor implements NestInterceptor {
       map(async (data) => {
         const response = await data;
 
-        // Se o header de criptografia bater, devolva a resposta sem criptografia.
-        if(headerValue === decryptHeaderValue){
+        // Se o header de criptografia bater ou a request for do swagger, devolva a resposta sem criptografia.
+        if(headerValue === decryptHeaderValue || isSwaggerPath){
           return response;
         }
         const digested = this.cryptoService.encrypt(response);
