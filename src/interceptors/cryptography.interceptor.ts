@@ -15,18 +15,25 @@ export class CryptographyInterceptor implements NestInterceptor {
     const headerValue = request.header(decryptHeader)
 
     // Condições para descriptografar o body...
-    if (
-      // se o Header de criptografia for passado na request e não bater
+    // -> Se o Header de criptografia for passado na request e não bater
+    const withoutOrInvalidDecryptHeaderValue = (
+      !headerValue 
+        ||
       (
         headerValue && 
         headerValue !== decryptHeaderValue 
       )
-      && // E
-      // Se o método é qualquer outro que não seja GET e tenha o body não-vazio
-      (
-        request.method != 'GET' &&
-        Object.keys(request.body).length !== 0
-      )
+    )
+    // -> Se o método é qualquer outro que não seja GET e tenha o body não-vazio
+    const nonGetWithBody = (
+      request.method != 'GET' &&
+      Object.keys(request.body).length !== 0
+    )
+
+    if (
+      withoutOrInvalidDecryptHeaderValue
+        && // E
+      nonGetWithBody
     ) {
       request.body = this.cryptoService.decrypt(request.body);
     }
