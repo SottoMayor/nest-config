@@ -371,7 +371,10 @@ __Documentação__:
     - https://docs.nestjs.com/interceptors   
     - https://www.npmjs.com/package/crypto-js
  
-__Commit__: 7299412c0d44202e2b38622f9c7697032132def9
+__Commit__: 
+    - Config: 7299412c0d44202e2b38622f9c7697032132def9
+    - Fix: 972b9fa70e6c0d713b62046c9abc916e49656ec4
+
 
 1 - Instale:   
 
@@ -388,6 +391,7 @@ npm i --save-dev @types/crypto-js
 3 - Criar módulo de criptografia (cryptography) apenas com serviço `cryptography.service`. Disponibilize módulo globalmente, pois ele pode ser reutilizado em outras partes.
 
 4 - Crie um interceptor (CryptographyInterceptor) e adicione toda a lógica necessária.   
+    `OBS`: verificar commit de fix.   
 
 5 - Disponibilize o `CryptographyInterceptor` de forma global (seção Injeção de Dependência para Features Globais).
 
