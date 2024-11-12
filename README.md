@@ -396,6 +396,14 @@ npm i --save-dev @types/crypto-js
 
 5 - Disponibilize o `CryptographyInterceptor` de forma global (seção Injeção de Dependência para Features Globais).
 
+## Interceptor - Arrumação em escopo global
+
+__Commit__: f41c6a03a636c469f3629c56e616d26227e5fd40    
+
+Por conta do `Interceptor de Criptografia`, existem declarações globais de interceptors no `main.ts` e no `app.module` e a ordem importa.   
+Para garantir que os interceptors rodem na ordem desejada é interessante fazer a declaração em apenas 1 desses 2 arquivos.   
+_Eu decidi levá-los para o `app.module` porque não há a necessidade de instanciá-los._   
+
 ## Documentação Swagger - Desligamento em produção + Desativação da Criptografia
 Caso não seja interessante dispor a documentação em produção é possível desligá-la.   
 Caso a documentação rode apenas em desenvolvimento, não é interessante habilitar a criptografia em chamadas de API feitas diretamente pelo swagger.
