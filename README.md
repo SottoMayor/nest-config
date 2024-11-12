@@ -373,7 +373,8 @@ __Documentação__:
  
 __Commit__:   
     - Config: 7299412c0d44202e2b38622f9c7697032132def9   
-    - Fix: 972b9fa70e6c0d713b62046c9abc916e49656ec4
+    - Fix: 972b9fa70e6c0d713b62046c9abc916e49656ec4   
+    - Fix: 597808cea2dd398bdd1088d818d9811067bf5d20
 
 
 1 - Instale:   
@@ -391,7 +392,7 @@ npm i --save-dev @types/crypto-js
 3 - Criar módulo de criptografia (cryptography) apenas com serviço `cryptography.service`. Disponibilize módulo globalmente, pois ele pode ser reutilizado em outras partes.
 
 4 - Crie um interceptor (CryptographyInterceptor) e adicione toda a lógica necessária.   
-    `OBS`: verificar commit de fix.   
+    `OBS`: verificar os commits de fix.   
 
 5 - Disponibilize o `CryptographyInterceptor` de forma global (seção Injeção de Dependência para Features Globais).
 
