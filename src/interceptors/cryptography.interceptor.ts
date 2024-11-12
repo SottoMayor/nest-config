@@ -45,7 +45,9 @@ export class CryptographyInterceptor implements NestInterceptor {
         && // E
       isNotSwaggerRequest
     ) {
-      request.body = this.cryptoService.decrypt(request.body);
+      const decryptString = JSON.parse(this.cryptoService.decrypt(request.body.data));
+      const decryptObject = JSON.parse(decryptString)
+      request.body = decryptObject;
     }
 
     return next.handle().pipe(
