@@ -375,6 +375,7 @@ __Commit__:
     - Config: 7299412c0d44202e2b38622f9c7697032132def9   
     - Fix: 972b9fa70e6c0d713b62046c9abc916e49656ec4   
     - Fix: 597808cea2dd398bdd1088d818d9811067bf5d20
+    - Feature: a5507ea6a039fe7412899fae815835a5e11ffda1
 
 
 1 - Instale:   
@@ -389,12 +390,18 @@ npm i --save-dev @types/crypto-js
     - `Header`: `DECRYPT_HEADER`.   
     - `Header Value`: `DECRYPT_HEADER_VALUE`.   
 
-3 - Criar módulo de criptografia (cryptography) apenas com serviço `cryptography.service`. Disponibilize módulo globalmente, pois ele pode ser reutilizado em outras partes.
+3 - Criar módulo de criptografia (cryptography) com serviço e controller. Disponibilize módulo globalmente, pois ele pode ser reutilizado em outras partes.
 
-4 - Crie um interceptor (CryptographyInterceptor) e adicione toda a lógica necessária.   
+4 - Implemente a criptografia e descriptografia no serviço.
+
+5 - No controller, implemente 2 rotas para criptografia e descriptografia de um payload qualquer (veja o commit de featute).   
+    - Isso é útil na hora de fazer testes com o header de criptografia desligado.   
+    - Eles são habilitados apenas em DEV, e é necessário utilizar o  `DECRYPT_HEADER` e  `DECRYPT_HEADER_VALUE`.   
+
+6 - Crie um interceptor (CryptographyInterceptor) e adicione toda a lógica necessária.   
     `OBS`: verificar os commits de fix.   
-
-5 - Disponibilize o `CryptographyInterceptor` de forma global (seção Injeção de Dependência para Features Globais).
+    
+7 - Disponibilize o `CryptographyInterceptor` de forma global (seção Injeção de Dependência para Features Globais).
 
 ## Interceptor - Arrumação em escopo global
 
