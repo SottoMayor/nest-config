@@ -8,6 +8,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CryptographyModule } from './cryptography/cryptography.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CryptographyInterceptor } from './interceptors/cryptography.interceptor';
+import { BodyConverterInterceptor } from './interceptors/body-converter.interceptor';
+import { ResponseNormalizationInterceptor } from './interceptors/response-normalization.interceptor';
 
 @Module({
   imports: [
@@ -41,8 +43,16 @@ import { CryptographyInterceptor } from './interceptors/cryptography.interceptor
     AppService,
     {
       provide: APP_INTERCEPTOR,
-      useClass: CryptographyInterceptor,
+      useClass: BodyConverterInterceptor,
     },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseNormalizationInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CryptographyInterceptor,
+    }
   ],
 })
 export class AppModule {}

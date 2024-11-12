@@ -15,8 +15,6 @@ async function bootstrap() {
     })
   )
 
-  app.useGlobalInterceptors(new BodyConverterInterceptor(), new ResponseNormalizationInterceptor());
-
   app.useGlobalFilters(new ErrorHandlerFilter());
 
   setupSwagger(app)
