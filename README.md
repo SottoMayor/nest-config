@@ -374,7 +374,7 @@ __Documentação__:
 __Commit__:   
     - Config: 7299412c0d44202e2b38622f9c7697032132def9   
     - Fix: 972b9fa70e6c0d713b62046c9abc916e49656ec4   
-    - Fix: 597808cea2dd398bdd1088d818d9811067bf5d20
+    - Fix: 597808cea2dd398bdd1088d818d9811067bf5d20   
     - Feature: a5507ea6a039fe7412899fae815835a5e11ffda1
 
 
@@ -394,7 +394,7 @@ npm i --save-dev @types/crypto-js
 
 4 - Implemente a criptografia e descriptografia no serviço.
 
-5 - No controller, implemente 2 rotas para criptografia e descriptografia de um payload qualquer (veja o commit de featute).   
+5 - No controller, implemente 2 rotas para criptografia e descriptografia de um payload qualquer (veja o commit de feature).   
     - Isso é útil na hora de fazer testes com o header de criptografia desligado.   
     - Eles são habilitados apenas em DEV, e é necessário utilizar o  `DECRYPT_HEADER` e  `DECRYPT_HEADER_VALUE`.   
 
