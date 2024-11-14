@@ -405,7 +405,9 @@ npm i --save-dev @types/crypto-js
 
 ## Interceptor - Arrumação em escopo global
 
-__Commit__: f41c6a03a636c469f3629c56e616d26227e5fd40    
+__Commit__:   
+- outdated: f41c6a03a636c469f3629c56e616d26227e5fd40
+- fix: fbc0ea38a7b98b2be907d6b0a433559dd085e796   
 
 Por conta do `Interceptor de Criptografia`, existem declarações globais de interceptors no `main.ts` e no `app.module` e a ordem importa.   
 Para garantir que os interceptors rodem na ordem desejada é interessante fazer a declaração em apenas 1 desses 2 arquivos.   
