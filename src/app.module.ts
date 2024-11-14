@@ -43,16 +43,16 @@ import { ResponseNormalizationInterceptor } from './interceptors/response-normal
     AppService,
     {
       provide: APP_INTERCEPTOR,
-      useClass: BodyConverterInterceptor,
-    },
-    {
-      provide: APP_INTERCEPTOR,
       useClass: ResponseNormalizationInterceptor,
     },
     {
       provide: APP_INTERCEPTOR,
       useClass: CryptographyInterceptor,
-    }
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: BodyConverterInterceptor,
+    },
   ],
 })
 export class AppModule {}
