@@ -20,6 +20,12 @@ export class CryptographyInterceptor implements NestInterceptor {
     const path = refererWithoutProtocol?.replace(host, '');
     const isSwaggerPath = path === '/api';
 
+    // Paths de white list - desabilite a criptografia para determinados paths
+    // 1. URL completa
+    const originalUrl = request.originalUrl
+    // 2. Verifique se nesta URL tem o path em que a criptografia deve ser desativada:
+    const isCallbackUrl = originalUrl.includes('callback')
+
     // Condições para descriptografar o body...
     // -> Se o Header de criptografia for passado na request e não bater
     const withoutOrInvalidDecryptHeaderValue = (
@@ -37,6 +43,8 @@ export class CryptographyInterceptor implements NestInterceptor {
     )
     // -> Se a request não for do swagger
     const isNotSwaggerRequest = !isSwaggerPath
+    // -> Se a request não for de uma URL que está na white list
+    const isNotCallbackUrl = !isCallbackUrl
 
     if (
       withoutOrInvalidDecryptHeaderValue
@@ -44,6 +52,8 @@ export class CryptographyInterceptor implements NestInterceptor {
       nonGetWithBody
         && // E
       isNotSwaggerRequest
+        && // E
+      isNotCallbackUrl
     ) {
       const decryptString = JSON.parse(this.cryptoService.decrypt(request.body.data));
       const decryptObject = JSON.parse(decryptString)
@@ -54,8 +64,8 @@ export class CryptographyInterceptor implements NestInterceptor {
       map(async (data) => {
         const response = await data;
 
-        // Se o header de criptografia bater ou a request for do swagger, devolva a resposta sem criptografia.
-        if(headerValue === decryptHeaderValue || isSwaggerPath){
+        // Critérios para devolver a resposta sem criptografia.
+        if(headerValue === decryptHeaderValue || isSwaggerPath || isCallbackUrl){
           return response;
         }
         const digested = this.cryptoService.encrypt(response);
