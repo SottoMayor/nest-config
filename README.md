@@ -297,7 +297,9 @@ __Documentação__:
 - https://lodash.com/
 - https://docs.nestjs.com/interceptors
  
-__Commit__: 2e67db1463d6b669ddd3a5a5a049e48e45dd1ab6
+__Commit__:    
+- Config: 2e67db1463d6b669ddd3a5a5a049e48e45dd1ab6
+- Fix: 3c3c9459a39644969f837f9322878ac1d8d667fd
 
 1 - Instale:   
 
