@@ -26,6 +26,9 @@ export class BodyConverterInterceptor implements NestInterceptor {
     if (Array.isArray(data)) {
       return data.map(item => this.transformToSnakeCase(item));
     } else if (typeof data === 'object' && data !== null) {
+      if (data instanceof Date) {
+        return data;
+      }
       const transformedData = {};
       for (const key in data) {
         if (data.hasOwnProperty(key)) {
@@ -43,6 +46,9 @@ export class BodyConverterInterceptor implements NestInterceptor {
     if (Array.isArray(data)) {
       return data.map(item => this.transformToCamelCase(item));
     } else if (typeof data === 'object' && data !== null) {
+      if (data instanceof Date) {
+        return data;
+      }
       const transformedData = {};
       for (const key in data) {
         if (data.hasOwnProperty(key)) {
