@@ -37,7 +37,9 @@ Use a CLI para criar os arquivos:
 
 ## 3. Configuração de Variáveis de Ambiente
 __Documentação__: https://docs.nestjs.com/techniques/configuration   
-__Commit__: 57f7d5d5e83b35deda9218c8e35bd17c7575c6c7
+__Commit__:   
+- Config: 57f7d5d5e83b35deda9218c8e35bd17c7575c6c7
+- Improviment: ff82a071ea4ec965922da34c1d7d18e475d7414d
 
 1 - Instale:   
 ```bash
@@ -47,6 +49,11 @@ npm i --save @nestjs/config
 2 - Crie um `.env` no root.
 
 3 - Importe o Módulo de Configuração `ConfigModule` no módulo principal `AppModule`.
+
+4 - Como sugerido no _commit de improviment_ `ff82a07`, inicialize o `.env` com as variáveis de ambiente `PORT`, `HOST` e `NODE_ENV`. Por padrão:   
+   - `PORT=3000`.   
+   - `HOST= 0.0.0.0`.   
+   - `NODE_ENV=production`.   
 
 ## 4. Configuração do TypeORM
 __Observações__:
