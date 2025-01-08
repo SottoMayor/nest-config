@@ -2,12 +2,16 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { BodyConverterInterceptor } from './interceptors/body-converter.interceptor';
-import { ResponseNormalizationInterceptor } from './interceptors/response-normalization.interceptor';
 import { ErrorHandlerFilter } from './filters/error-handler.filter';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
+
+  const configService = app.get(ConfigService);
+  const PORT = configService.get<string>('PORT')
+  const HOST = configService.get<string>('HOST')
+  const NODE_ENV = configService.get<string>('NODE_ENV')
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -17,15 +21,15 @@ async function bootstrap() {
 
   app.useGlobalFilters(new ErrorHandlerFilter());
 
-  setupSwagger(app)
+  setupSwagger(app, NODE_ENV)
 
-  await app.listen(3000);
+  await app.listen(PORT, () => console.log(`🚀 OK! App running on ${HOST}:${PORT} 🚀`));
 }
 bootstrap();
 
 
-function setupSwagger(app: INestApplication) {
-  if (process.env.NODE_ENV === 'development') {
+function setupSwagger(app: INestApplication, nodeEnv: string) {
+  if (nodeEnv === 'development') {
     const config = new DocumentBuilder()
     .setTitle('Swagger Documentation Example')
     .setDescription('The Users API description')
