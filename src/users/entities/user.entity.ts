@@ -12,13 +12,22 @@ export class User {
   birthdate: Date;
 
   @Column({ type: 'enum', enum: ['M', 'F'] })
-  gender: 'M' | 'F';
+  gender: string;
 
   @Column('float')
   height: number;
 
   @Column('float')
   weight: number;
+
+  @Column('varchar')
+  email: string;
+
+  @Column('varchar')
+  password: string;
+  
+  @Column({type: 'bool', name: 'is_admin'})
+  isAdmin: boolean;
 
   // Este campo não uma coluna, apenas para armazenamento de um dado do usuário
   idealWeight: number;
