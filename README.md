@@ -19,6 +19,8 @@
     - `nest g itc /interceptors/BodyConverter --flat --no-spec`
     - `nest g mi /middlewares/Logger --flat --no-spec`
     - `nest g pi /pipes/ValidationPipe --flat --no-spec`
+    - `nest g d ./decorators/get-user --flat --no-spec`
+       - _OBS_: [boilerplate](https://docs.nestjs.com/custom-decorators) do custom decorator.
 
 # Passos de Configuração
 
