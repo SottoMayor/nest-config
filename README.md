@@ -111,7 +111,10 @@ npm install typeorm-extension --save
 __Observações__:
 - Configurações realizadas no passo anterior.   
 - Definição de scripts (package.json) de gerenciamento.
-- Rodar scripts para criação ou execução de arquivos.   
+- Rodar scripts para criação ou execução de arquivos.
+- Se tiver uso de __entidades dentro de uma seed__, importe-a usando o _caminho relativo_:
+   - __certo__: `'../../users/entities/user.entity'`
+   - errado: `'src/users/entities/user.entity'`
 
 __Documentação__:   
 - https://typeorm.io/migrations   
