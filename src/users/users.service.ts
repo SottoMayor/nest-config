@@ -30,7 +30,11 @@ export class UsersService {
     return this.usersRepository.save(newUser);
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll(user: User): Promise<User[]> {
+    if(!user.isAdmin){
+      const { data: authUser } = await this.findOne(user.id);
+      return [authUser]
+    }
     return this.usersRepository.find();
   }
 
@@ -53,7 +57,11 @@ export class UsersService {
     return {data: user, message: 'iiihulll!', success: true};
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<ResponseService<User>> {
+  async update(id: number, updateUserDto: UpdateUserDto, authUser: User): Promise<ResponseService<User>> {
+    if(!authUser.isAdmin){
+      throw new BadRequestException('Apenas administradores podem atualizar dados de usuários.')
+    }
+    
     const { data: user } = await this.findOne(id);
     this.usersRepository.merge(user, updateUserDto);
     return { data: await this.usersRepository.save(user), message: 'Usuário atualizado com sucesso!' };
