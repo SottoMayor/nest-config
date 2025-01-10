@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, AfterLoad } from 'typeorm';
+import { genSalt, hash } from 'bcrypt';
+import { Entity, Column, PrimaryGeneratedColumn, AfterLoad, BeforeInsert } from 'typeorm';
 
 @Entity()
 export class User {
@@ -46,4 +47,12 @@ export class User {
   idealWeightStorage(): void {
     this.idealWeight = this.calculateIdealWeight()
   }
+
+    // Hash da senha antes da inserção no DB
+    @BeforeInsert()
+    async hashPassword(): Promise<void> {
+      const salt = await genSalt(12)
+      const hashedPassword = await hash(this.password, salt);
+      this.password = hashedPassword
+    }
 }
