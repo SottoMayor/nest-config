@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { AuthCredentialsDto } from './dto/auth-credentials.dto';
+import { AuthTokenDto } from './dto/auth-token.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -14,6 +16,13 @@ export class UsersController {
   @ApiResponse({ status: 400, description: 'Invalid input.' })
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
+  }
+
+  @Post('/login')
+  @ApiResponse({ status: 200, description: 'The user has been logged-in.' })
+  @HttpCode(200)
+  async login(@Body() authCredentialsDto: AuthCredentialsDto): Promise<AuthTokenDto> {
+    return await this.usersService.login(authCredentialsDto);
   }
 
   @Get()
