@@ -60,7 +60,8 @@ npm i --save @nestjs/config
 ## 4. Configuração do TypeORM
 __Observações__:
 - Conexão com banco de dados __Postgres__.   
-- Informações necessárias da documentação do passo anterior.   
+- Informações necessárias da documentação do passo anterior.
+- Não precisa passar entidades como **providers**! `TypeOrmModule.forFeature()` já faz isso automaticamente.   
 
 __Documentação__:   
 - https://docs.nestjs.com/techniques/configuration  
