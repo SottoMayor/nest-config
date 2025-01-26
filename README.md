@@ -213,6 +213,7 @@ _OBS __4___:: Nos passos 3 e 5 é necessário fazer instalação e configuraçã
 __Observações__:   
 - Observe que neste caso não se tem relacionamentos.
 - Basta construir a Entidade.
+- __Timestamps__: Sempre criar as entidades `created_at` e `updated_at`.
 
 __Documentação__: 
 - https://typeorm.io/entities
@@ -221,10 +222,13 @@ __Documentação__:
 __Commit__: 18dc07713eafeea4a2a594d51103600b8b84d757
 
 1 - Construa a entidade User
+   - Nesse projeto, as propriedades `created_at` e `updated_at` só foram adicionados na branch `relationships`.
 
 ### 2. Construir e Executar Migrations e Seeds.
 
-__Observações__: Observe que neste caso não se tem seeds.
+__Observações__: 
+- Observe que neste caso não se tem seeds.
+- __Timestamps__: Sempre criar as migrations `created_at` e `updated_at`.
 
 __Documentação__:   
 - https://orkhan.gitbook.io/typeorm/docs/migrations
@@ -232,8 +236,9 @@ __Documentação__:
  
 __Commit__: d5ddefeaa48d2edcf857059e1483c5591d0d0082
 
-1 - Construa a migration User.   
-2 - Execute a migrations pelo comando do package.json.
+1 - Construa a migration User.  
+2 - Execute a migrations pelo comando do package.json.   
+- Nesse projeto, as propriedades `created_at` e `updated_at` só foram adicionados na branch `relationships`. 
 
 ### 3. Construir e Validar/Sanitizar DTOs.
 
@@ -303,6 +308,26 @@ npm install --save @nestjs/swagger
 # Utilitários
 Artifícios que gerenciam o fluxo de uma aplicação e automatizam lógicas comuns.   
 
+## Filter - Error Handler
+Interceptor que padroniza o envio de erros da API. É como se fosse um `Interceptor - Response Normalization` para as respostas de erro.
+
+```Bash
+{
+  success: boolean,
+  message: string,
+  data: null,
+  errors: string[] | []
+}
+```
+
+__Documentação__: https://docs.nestjs.com/exception-filters
+ 
+__Commit__: 9410b0d153c7a787bbd1bc0fd5e239a570df1366
+
+1 - Crie um filter (ErrorHandler) e adicione toda a lógica necessária.    
+
+2 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalFilters`.   
+
 ## Interceptor - Body Converter
 Interceptor que recebe um body no formato `snake_case` e transforma para o formato `camelCase`, formato padrão da sintaxe do código. Por fim, no envio da resposta, transforma `camelCase` em `snake_case`.
 
@@ -323,7 +348,7 @@ npm i --save-dev @types/lodash
 
 2 - Crie um interceptor (BodyConverter) e adicione toda a lógica necessária.      
 
-3 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalInterceptors`.
+3 - Disponibilize-o globalmente no `app.module.ts`.
 
 ## Interceptor - Response Normalization
 Interceptor que padroniza o envio das respostas de API.
@@ -343,31 +368,11 @@ __Commit__: e2fd136e13971133669ed3786ab7c6a5e02e4e4b
 
 1 - Crie um interceptor (ResponseNormalization) e adicione toda a lógica necessária.    
 
-2 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalInterceptors`.     
+2 - Disponibilize-o globalmente no `app.module.ts`.     
 
 3 - Crie uma interface (ResponseService.interface) que suporte o envio das propriedades `message` e `success`.
 
 4 - Aplique a interface do passo 3 nos services em que se deseja setar o valor de `message` ou `success` (ex: uma mensagem personalizada). 
-
-## Filter - Error Handler
-Interceptor que padroniza o envio de erros da API. É como se fosse um `Interceptor - Response Normalization` para as respostas de erro.
-
-```Bash
-{
-  success: boolean,
-  message: string,
-  data: null,
-  errors: string[] | []
-}
-```
-
-__Documentação__: https://docs.nestjs.com/exception-filters
- 
-__Commit__: 9410b0d153c7a787bbd1bc0fd5e239a570df1366
-
-1 - Crie um filter (ErrorHandler) e adicione toda a lógica necessária.    
-
-2 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalFilters`.   
 
 ## Interceptor - Criptografia + Configuração de Criptografia Simétrica
 - Criptografar as respostas enviadas e descriptografar bodys recebidos usando uma chave de criptografia (ex: frase aleatória com caracteres especiais no sha-256 UTF8).   
@@ -417,8 +422,9 @@ npm i --save-dev @types/crypto-js
 6) Crie um interceptor (CryptographyInterceptor) e adicione toda a lógica necessária.   
     `OBS`: verificar os commits de fix.   
     
-7) Disponibilize o `CryptographyInterceptor` de forma global (seção Injeção de Dependência para Features Globais).   
-        - `White list`: Permissão de desligamento da criptografia para rotas selecionadas. Funciona por meio de uma configuração interna neste interceptor.
+7) Disponibilize o `CryptographyInterceptor` de forma global (seção Injeção de Dependência para Features Globais).
+   - Disponibilização global feita no `app.module.ts`.
+   - `White list`: Permissão de desligamento da criptografia para rotas selecionadas. Funciona por meio de uma configuração interna neste interceptor.
 
 ## Interceptor - Arrumação em escopo global
 
