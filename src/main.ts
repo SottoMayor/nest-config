@@ -4,6 +4,7 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ErrorHandlerFilter } from './filters/error-handler.filter';
 import { ConfigService } from '@nestjs/config';
+import { DatabaseErrorHandlerFilter } from './filters/database-error-handler.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
@@ -19,7 +20,7 @@ async function bootstrap() {
     })
   )
 
-  app.useGlobalFilters(new ErrorHandlerFilter());
+  app.useGlobalFilters(new ErrorHandlerFilter(), new DatabaseErrorHandlerFilter());
 
   setupSwagger(app, NODE_ENV)
 
