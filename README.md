@@ -60,7 +60,8 @@ npm i --save @nestjs/config
 ## 4. Configuração do TypeORM
 __Observações__:
 - Conexão com banco de dados __Postgres__.   
-- Informações necessárias da documentação do passo anterior.   
+- Informações necessárias da documentação do passo anterior.
+- Não precisa passar entidades como **providers**! `TypeOrmModule.forFeature()` já faz isso automaticamente.   
 
 __Documentação__:   
 - https://docs.nestjs.com/techniques/configuration  
@@ -111,7 +112,10 @@ npm install typeorm-extension --save
 __Observações__:
 - Configurações realizadas no passo anterior.   
 - Definição de scripts (package.json) de gerenciamento.
-- Rodar scripts para criação ou execução de arquivos.   
+- Rodar scripts para criação ou execução de arquivos.
+- Se tiver uso de __entidades dentro de uma seed__, importe-a usando o _caminho relativo_:
+   - __certo__: `'../../users/entities/user.entity'`
+   - errado: `'src/users/entities/user.entity'`
 
 __Documentação__:   
 - https://typeorm.io/migrations   
@@ -209,6 +213,7 @@ _OBS __4___:: Nos passos 3 e 5 é necessário fazer instalação e configuraçã
 __Observações__:   
 - Observe que neste caso não se tem relacionamentos.
 - Basta construir a Entidade.
+- __Timestamps__: Sempre criar as entidades `created_at` e `updated_at`.
 
 __Documentação__: 
 - https://typeorm.io/entities
@@ -217,10 +222,13 @@ __Documentação__:
 __Commit__: 18dc07713eafeea4a2a594d51103600b8b84d757
 
 1 - Construa a entidade User
+   - Nesse projeto, as propriedades `created_at` e `updated_at` só foram adicionados na branch `relationships`.
 
 ### 2. Construir e Executar Migrations e Seeds.
 
-__Observações__: Observe que neste caso não se tem seeds.
+__Observações__: 
+- Observe que neste caso não se tem seeds.
+- __Timestamps__: Sempre criar as migrations `created_at` e `updated_at`.
 
 __Documentação__:   
 - https://orkhan.gitbook.io/typeorm/docs/migrations
@@ -228,8 +236,9 @@ __Documentação__:
  
 __Commit__: d5ddefeaa48d2edcf857059e1483c5591d0d0082
 
-1 - Construa a migration User.   
-2 - Execute a migrations pelo comando do package.json.
+1 - Construa a migration User.  
+2 - Execute a migrations pelo comando do package.json.   
+- Nesse projeto, as propriedades `created_at` e `updated_at` só foram adicionados na branch `relationships`. 
 
 ### 3. Construir e Validar/Sanitizar DTOs.
 
@@ -299,6 +308,46 @@ npm install --save @nestjs/swagger
 # Utilitários
 Artifícios que gerenciam o fluxo de uma aplicação e automatizam lógicas comuns.   
 
+## Filter - Error Handler
+Filter que padroniza o envio de erros HTTP da API.
+
+```Bash
+{
+  success: false,
+  message: string,
+  data: null,
+  errors: string[] | []
+}
+```
+
+__Documentação__: https://docs.nestjs.com/exception-filters
+ 
+__Commit__: 9410b0d153c7a787bbd1bc0fd5e239a570df1366
+
+1 - Crie um filter (ErrorHandler) e adicione toda a lógica necessária.    
+
+2 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalFilters`.   
+
+## Filter -  Database Error Handler
+Filter que padroniza o envio de erros provenientes do SGBD (Postgres) ou ORM (TypeORM).
+
+```Bash
+{
+  success: false,
+  message: string,
+  data: null,
+  errors: string[] | []
+}
+```
+
+__Documentação__: https://docs.nestjs.com/exception-filters
+ 
+__Commit__: ff437ea3f2046d1eaad1eccfae62b940d9ec5834
+
+1 - Crie um filter (DatabaseErrorHandler) e adicione toda a lógica necessária.    
+
+2 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalFilters`. 
+
 ## Interceptor - Body Converter
 Interceptor que recebe um body no formato `snake_case` e transforma para o formato `camelCase`, formato padrão da sintaxe do código. Por fim, no envio da resposta, transforma `camelCase` em `snake_case`.
 
@@ -307,8 +356,9 @@ __Documentação__:
 - https://docs.nestjs.com/interceptors
  
 __Commit__:    
-- Config: 2e67db1463d6b669ddd3a5a5a049e48e45dd1ab6
-- Fix: 3c3c9459a39644969f837f9322878ac1d8d667fd
+   - Config: 2e67db1463d6b669ddd3a5a5a049e48e45dd1ab6
+   - Fix: 3c3c9459a39644969f837f9322878ac1d8d667fd
+   - Improviment: fbc0ea38a7b98b2be907d6b0a433559dd085e796 (_passo 3_)   
 
 1 - Instale:   
 
@@ -319,7 +369,7 @@ npm i --save-dev @types/lodash
 
 2 - Crie um interceptor (BodyConverter) e adicione toda a lógica necessária.      
 
-3 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalInterceptors`.
+3 - Disponibilize-o globalmente no `app.module.ts`.
 
 ## Interceptor - Response Normalization
 Interceptor que padroniza o envio das respostas de API.
@@ -335,35 +385,17 @@ Interceptor que padroniza o envio das respostas de API.
 
 __Documentação__: https://docs.nestjs.com/interceptors
  
-__Commit__: e2fd136e13971133669ed3786ab7c6a5e02e4e4b
+__Commit__:   
+   - Config: e2fd136e13971133669ed3786ab7c6a5e02e4e4b   
+   - Improviment: fbc0ea38a7b98b2be907d6b0a433559dd085e796 (_passo 2_) 
 
 1 - Crie um interceptor (ResponseNormalization) e adicione toda a lógica necessária.    
 
-2 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalInterceptors`.     
+2 - Disponibilize-o globalmente no `app.module.ts`.     
 
 3 - Crie uma interface (ResponseService.interface) que suporte o envio das propriedades `message` e `success`.
 
 4 - Aplique a interface do passo 3 nos services em que se deseja setar o valor de `message` ou `success` (ex: uma mensagem personalizada). 
-
-## Filter - Error Handler
-Interceptor que padroniza o envio de erros da API. É como se fosse um `Interceptor - Response Normalization` para as respostas de erro.
-
-```Bash
-{
-  success: boolean,
-  message: string,
-  data: null,
-  errors: string[] | []
-}
-```
-
-__Documentação__: https://docs.nestjs.com/exception-filters
- 
-__Commit__: 9410b0d153c7a787bbd1bc0fd5e239a570df1366
-
-1 - Crie um filter (ErrorHandler) e adicione toda a lógica necessária.    
-
-2 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalFilters`.   
 
 ## Interceptor - Criptografia + Configuração de Criptografia Simétrica
 - Criptografar as respostas enviadas e descriptografar bodys recebidos usando uma chave de criptografia (ex: frase aleatória com caracteres especiais no sha-256 UTF8).   
@@ -388,6 +420,7 @@ __Commit__:
     - Fix: 597808cea2dd398bdd1088d818d9811067bf5d20   
     - Feature: a5507ea6a039fe7412899fae815835a5e11ffda1   
     - Feature: 0e3030adbc4b97cec79b2484970848a0030a3ac2 (white list)   
+    - Improviment: fbc0ea38a7b98b2be907d6b0a433559dd085e796 (_passo 7_) 
 
 
 1) Instale:   
@@ -413,18 +446,9 @@ npm i --save-dev @types/crypto-js
 6) Crie um interceptor (CryptographyInterceptor) e adicione toda a lógica necessária.   
     `OBS`: verificar os commits de fix.   
     
-7) Disponibilize o `CryptographyInterceptor` de forma global (seção Injeção de Dependência para Features Globais).   
-        - `White list`: Permissão de desligamento da criptografia para rotas selecionadas. Funciona por meio de uma configuração interna neste interceptor.
-
-## Interceptor - Arrumação em escopo global
-
-__Commit__:   
-- outdated: f41c6a03a636c469f3629c56e616d26227e5fd40
-- fix: fbc0ea38a7b98b2be907d6b0a433559dd085e796   
-
-Por conta do `Interceptor de Criptografia`, existem declarações globais de interceptors no `main.ts` e no `app.module` e a ordem importa.   
-Para garantir que os interceptors rodem na ordem desejada é interessante fazer a declaração em apenas 1 desses 2 arquivos.   
-_Eu decidi levá-los para o `app.module` porque não há a necessidade de instanciá-los._   
+7) Disponibilize o `CryptographyInterceptor` de forma global (seção Injeção de Dependência para Features Globais).
+   - Disponibilização global feita no `app.module.ts`.
+   - `White list`: Permissão de desligamento da criptografia para rotas selecionadas. Funciona por meio de uma configuração interna neste interceptor.
 
 ## Documentação Swagger - Desligamento em produção + Desativação da Criptografia
 Caso não seja interessante dispor a documentação em produção é possível desligá-la.   
@@ -494,8 +518,36 @@ Em uma aplicação com NestJs com TypeORM, existem 2 tipos de DataSource.
 
 ## Injeção de Dependência para Features Globais
 - Para usar o `CryptographyInterceptor` é preciso ter acesso aos serviços cryptographyService e configService.
-- Setar este interceptor no `main.ts` usando `app.useGlobalInterceptors` é desconfortável, pois seria necessário instanciar e injetar neste interceptor esses 2 serviços.
-- Para contornar isso, foi preciso declará-lo nos providers do `app.module`, assim o próprio framework cuida da injeção de dependência do interceptor.
-- Dessa forma eu tenho uma disponibilidade global, já que o `app.module` é o módulo principal e toda aplicação tem acesso a ele.
-- Dessa forma, também, verificou-se `CryptographyInterceptor` é acionado após o acionamento dos interceptors declarados em `app.useGlobalInterceptors`.
-- Caso a aplicação deste interceptor não fosse global (improvável), ou seja, utilização em apenas uma rota ou em um conjunto de rotas. Basta usar o decorator `@UseInterceptors(CryptographyInterceptor)` em um método ou classe de um controller, além de ter que desabilitar a disponibilidade global. Mas há um problema: ele não criptografa a resposta inteira, apenas os dados que o próprio controller retorna.
+- Setar este interceptor no `main.ts` usando `app.useGlobalInterceptors` é desconfortável, por conta da injeção de dependência manual.
+- Mas, caso estejam nos providers do `app.module`, além da disponibilidade global do interceptor, a injeção de dependência é gerida pelo próprio framework.
+
+### Ordem de Acionamento de Interceptor:
+1) Commit(outdated): 7299412c0d44202e2b38622f9c7697032132def   
+- `CryptographyInterceptor` no `app.module.ts` e os demais Interceptors no `main.ts`
+- Problema: o `CryptographyInterceptor` era acionado após todos os interceptors de `main.ts` serem executados. Portanto, a onde o Interceptor é declarado influencia na ordem de execução.   
+
+
+2) Commit(outdated): f41c6a03a636c469f3629c56e616d26227e5fd40
+- Para resolver `1)`, os Interceptors todos foram declarados `app.module`.
+- Agora todos estão no mesmo escopo, mas na ordem errada.
+- Problema: Existe uma ordem específica de acionamento na qual resulta em uma resposta em caso de sucesso da requisição, onde todos os campos desta está em `snake_case`:
+   ```Bash
+   {
+     success: boolean,
+     message: string,
+     data: **digested**,
+     errors: string[] | []
+   }
+   ```
+   - ou seja, a ordem para atingir essa saída da API importa e é controlada no _array de providers_.
+
+
+3) __Commit(current)__: fbc0ea38a7b98b2be907d6b0a433559dd085e796   
+- Para resolver `2)`, é preciso entender a ordem como são disparados pelo framework:
+   - __Entrada__: Seguem a ordem que são declarados no _array de providers_.
+   - __Saída__: Seguem a ordem _inversa_ que são declarados no _array de providers_.
+- Portanto, a ordem que soluciona esse problema é:
+   - __1°__: `ResponseNormalizationInterceptor` | __2°__: `CryptographyInterceptor` | __3°__: `BodyConverterInterceptor`.   
+   - __Entrada__: `ResponseNormalizationInterceptor` -> `CryptographyInterceptor` -> `BodyConverterInterceptor`.
+   - __Saída__: `BodyConverterInterceptor` -> `CryptographyInterceptor` -> `ResponseNormalizationInterceptor`.   
+        
