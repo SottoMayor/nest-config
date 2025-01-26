@@ -1,7 +1,8 @@
 import { User } from '../../users/entities/user.entity'
 import { DataSource } from 'typeorm';
 import { Seeder } from 'typeorm-extension';
-import { genSalt, hash } from 'bcrypt';
+import * as dotenv from 'dotenv';
+dotenv.config(); 
 
 export class Admin1731283542297 implements Seeder {
     track = false;
@@ -18,12 +19,11 @@ export class Admin1731283542297 implements Seeder {
         }
 
         const email = 'admin@admin.com'
-        const salt = await genSalt(12)
-        const hashedPassword = await hash(email, salt);
+        const password = process.env.ADMIN_PASSWORD
 
         const adminUser = {
             email: email,
-            password: hashedPassword,
+            password: password,
             is_admin: true,
             birthdate: new Date('2000-05-13'),
             name: 'Super User',
