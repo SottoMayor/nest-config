@@ -309,11 +309,11 @@ npm install --save @nestjs/swagger
 Artifícios que gerenciam o fluxo de uma aplicação e automatizam lógicas comuns.   
 
 ## Filter - Error Handler
-Interceptor que padroniza o envio de erros da API. É como se fosse um `Interceptor - Response Normalization` para as respostas de erro.
+Filter que padroniza o envio de erros HTTP da API.
 
 ```Bash
 {
-  success: boolean,
+  success: false,
   message: string,
   data: null,
   errors: string[] | []
@@ -327,6 +327,26 @@ __Commit__: 9410b0d153c7a787bbd1bc0fd5e239a570df1366
 1 - Crie um filter (ErrorHandler) e adicione toda a lógica necessária.    
 
 2 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalFilters`.   
+
+## Filter -  Database Error Handler
+Filter que padroniza o envio de erros provenientes do SGBD (Postgres) ou ORM (TypeORM).
+
+```Bash
+{
+  success: false,
+  message: string,
+  data: null,
+  errors: string[] | []
+}
+```
+
+__Documentação__: https://docs.nestjs.com/exception-filters
+ 
+__Commit__: ff437ea3f2046d1eaad1eccfae62b940d9ec5834
+
+1 - Crie um filter (DatabaseErrorHandler) e adicione toda a lógica necessária.    
+
+2 - Disponibilize-o globalmente no `main.ts` em `app.useGlobalFilters`. 
 
 ## Interceptor - Body Converter
 Interceptor que recebe um body no formato `snake_case` e transforma para o formato `camelCase`, formato padrão da sintaxe do código. Por fim, no envio da resposta, transforma `camelCase` em `snake_case`.
