@@ -10,6 +10,8 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CryptographyInterceptor } from './interceptors/cryptography.interceptor';
 import { BodyConverterInterceptor } from './interceptors/body-converter.interceptor';
 import { ResponseNormalizationInterceptor } from './interceptors/response-normalization.interceptor';
+import { AddressesModule } from './addresses/addresses.module';
+import { ProfessionsModule } from './professions/professions.module';
 
 @Module({
   imports: [
@@ -36,7 +38,9 @@ import { ResponseNormalizationInterceptor } from './interceptors/response-normal
         }
       }),
     UsersModule,
-    CryptographyModule
+    CryptographyModule,
+    AddressesModule,
+    ProfessionsModule
   ],
   controllers: [AppController],
   providers: [
