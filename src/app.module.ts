@@ -12,6 +12,10 @@ import { BodyConverterInterceptor } from './interceptors/body-converter.intercep
 import { ResponseNormalizationInterceptor } from './interceptors/response-normalization.interceptor';
 import { AddressesModule } from './addresses/addresses.module';
 import { ProfessionsModule } from './professions/professions.module';
+import { Document } from './users/entities/document.entity';
+import { Address } from './addresses/entities/address.entity';
+import { Profession } from './professions/entities/profession.entity';
+import { ProfessionUser } from './professions/entities/profession-user.entity';
 
 @Module({
   imports: [
@@ -32,7 +36,11 @@ import { ProfessionsModule } from './professions/professions.module';
             database: configService.get<string>('DB_NAME'),
             synchronize: false,
             entities: [
-              User
+              User,
+              Document,
+              Address,
+              Profession,
+              ProfessionUser
             ],
           };
         }
