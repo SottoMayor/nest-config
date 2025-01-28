@@ -26,6 +26,6 @@ import { Document } from './entities/document.entity';
   ],
   controllers: [UsersController],
   providers: [UsersService, JwtStrategy],
-  exports: [JwtStrategy, PassportModule]
+  exports: [JwtStrategy, PassportModule, UsersService]
 })
 export class UsersModule {}
