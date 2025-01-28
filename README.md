@@ -35,10 +35,12 @@ Organização das Entidades:
 **Documentação**: https://orkhan.gitbook.io/typeorm/docs/many-to-many-relations#many-to-many-relations-with-custom-properties   
 **commit**: f7ae0dc03a71966b2e35be5b8a618e900b746a12   
 
-- *Evitar Conflito de Nome em Tabelas*
+- *Importação correta de entidades*:
+   - Use o caminho relativo para importar as entidades quando for setar os relacionamentos.
+- *Evitar Conflito de Nome em Tabelas*:
    - Garantir que a entidade e a migration têm o mesmo nome de tabela.
    - Em cada entidade, passar o nome da tabela dentro de `@Entity()`. Sendo assim, esse mesmo nome deve ser declarado na criação das migrations.
-- *Timestamps*: Sempre adicionar `created_at` e `updated_at`
+- *Timestamps*: Sempre adicionar `created_at` e `updated_at`.
 - *Colunas em snake_case*:
    - Boa prática de definir o nome das colunas do DB em `snake_case`.
    - Sempre que os campos da entidade estiverem em `camelCase`, use a propriedade `name` de `@column()`.
@@ -47,7 +49,7 @@ Organização das Entidades:
    - A propriedade `name` é o nome da coluna, portanto ela deve ser em **snake_case**.
    - Só use o  @JoinColumn na entidade que irá carregar a chave estrangeira do relacionamento.
       - Ex: User 1 : 1 Document, onde Document vai receber user_id. Então apenas Document deve usá-lo.
-- *A melhor abordagem para Many-to-Many*
+- *A melhor abordagem para Many-to-Many*:
    - O caminho mais fácil é **SEMPRE** criar uma **entidade** para a tabela pivô (*entidade pivô*) e rodar sua **migration**.
    - É mais fácil começar o relacionamento pela tabela pivô, depois é só ir arrumando as duas outras entidades.
    - Nas entidades do relacionamento N:N é feito um 1:N em cada, portanto é preciso setar o `@JoinColumn()` nessas entidades.
@@ -66,9 +68,38 @@ Organização das Entidades:
    - *Eager Loading com Many-To-Many*:
       -  É preciso setar o Eager Loading nas 2 entidades que estão ligadas à entidade pivô. Não é preciso configurar nada na entidade pivô.
       -  O resultado da busca é um array com registros da tabela pivô, em cada registro está um objeto aninhado com os registros de seu respectivo ID, para cada uma das entidades relacionadas.
-    
 
-# Seções
+## 4. Migrations
+**commit**: 57c1b75dfa63157cf6075b525b1a25bcb1be6523
+
+- *Importação correta de entidades*:
+   - Use o caminho relativo para importar as entidades quando for setar os relacionamentos.
+- *Alteração no User*:
+   - Correção dos campos de timestamps.
+   - Inclusão do campo `address_id`.
+- *Evitar Conflito de Nome em Tabelas*:
+   - Garantir que a entidade e a migration têm o mesmo nome de tabela.
+   - Em cada entidade, verificar o nome da tabela dentro de `@Entity()` e colocar como o nome da tabela na migration.
+- *Timestamps*: Sempre adicionar `created_at` e `updated_at`. 
+- *Primary key como uuid*:
+   - Na entidade, definir `@PrimaryGeneratedColumn('uuid')`e setar a tipagem da sua propriedade para `string`. Na migration, setar `generationStrategy: 'uuid'` e `type: 'uuid'` no campo `id`.
+
+## 5. Seeds
+**commit**: c04140d5f3df6e9e4c1cb046208055c6355ca70d   
+
+Nas seeds é possível inserir mais de um registro de uma vez. É bem simples, basta fornecer um array com os dados e salvar.
+
+## 6. Importação de um módulo A para o módulo B.
+
+1) Mexer nos módulos A e B:
+   - **commit**: 12f98dd79c4c6e272edc987bd472da0c035dbf0f
+   - A: exportar apenas o que se quer que fique acessível, geralmente é um service.
+   - B: importa o módulo A inteiro, mas só tem acesso ao foi exportado por A.
+2) Criação do DTO e a rota no controller e método no services:
+   - **commit**: 7e2016089327d34b49e12415f274cc03dee5a972
+   - Injeção de dependência do módulo importado no service do módulo que importa.
+
+# Notas
 
 ## Eager Loading vs Lazy Loading no TypeORM
 
