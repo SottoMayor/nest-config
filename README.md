@@ -99,6 +99,16 @@ Nas seeds é possível inserir mais de um registro de uma vez. É bem simples, b
    - **commit**: 7e2016089327d34b49e12415f274cc03dee5a972
    - Injeção de dependência do módulo importado no service do módulo que importa.
 
+## 7. Autorização em outros módulos.
+**commit**: 1525d0d468411d57f87542d07a746050afe87283
+
+Uma vez que a autenticação foi setada no módulo Users (`AuthMod`). É possível proteger rotas e fazer autorização em outros módulos.
+
+1) Importar `AuthMod` no módulo que se quer fazer Autenticação.
+2) Como explicado em `AUTH`:
+   - utilizar o `@UseGuards(AuthGuard())` no controller ou método do controller para Autenticação
+   - utilizar o `@GetUser()` no método do controller para fazer Autorização.
+
 # Notas
 
 ## Eager Loading vs Lazy Loading no TypeORM
